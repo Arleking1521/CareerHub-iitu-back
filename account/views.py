@@ -20,6 +20,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_GET
 from axes.handlers.proxy import AxesProxyHandler
 from axes.utils import reset as axes_reset
+from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiParameter
 
 User = get_user_model()
 acc_active_token = TokenGenerator()
@@ -29,6 +30,7 @@ acc_active_token = TokenGenerator()
 def csrf(request):
     return JsonResponse({"csrfToken": get_token(request)})
 
+@extend_schema(request=RegisterSerializer, responses={201: OpenApiResponse(description="Регистрация успешна")})
 class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = RegisterSerializer
@@ -91,6 +93,10 @@ class RegisterView(generics.CreateAPIView):
             status=status.HTTP_201_CREATED
         )
 
+@extend_schema(
+    parameters=[OpenApiParameter("uid", str), OpenApiParameter("token", str)],
+    responses={200: OpenApiResponse(description="Email подтвержден")}
+)
 class VerifyEmailView(APIView):
     permission_classes = [AllowAny]
 
@@ -130,7 +136,7 @@ def _clear_auth_cookies(response: Response):
     response.delete_cookie(settings.JWT_AUTH_REFRESH_COOKIE, path=settings.JWT_COOKIE_REFRESH_PATH)
 
 
-
+@extend_schema(request=LoginSerializer, responses={200: OpenApiResponse(description="OK, возвращает access token")})
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -202,7 +208,7 @@ class LoginView(APIView):
         _set_auth_cookies(resp, refresh=refresh_str)
         return resp
 
-
+@extend_schema(responses={200: OpenApiResponse(description="Новый access token")})
 class RefreshCookieView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = [] 
@@ -230,7 +236,7 @@ class RefreshCookieView(APIView):
         except Exception:
             return JsonResponse({"detail": "Invalid refresh token"}, status=401)
 
-
+@extend_schema(responses={200: OpenApiResponse(description="Logged out")})
 class LogoutView(APIView):
     permission_classes = [AllowAny]
 
