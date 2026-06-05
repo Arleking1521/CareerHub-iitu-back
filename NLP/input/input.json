@@ -1,0 +1,36 @@
+{
+  "educationYear": "2 курс бакалавриата",
+  "specialization": "Computer Science",
+  "targetRole": "Junior Ml Developer",
+  "skills": [
+    "Python",
+    "FastAPI",
+    "PostgreSQL",
+    "Docker",
+    "Git",
+    "Scikit-learn",
+    "Pandas",
+    "NumPy",
+    "Matplotlib"
+  ],
+  "projects": [
+    {
+      "name": "Resume Generator",
+      "description": "Сервис, который собирает данные пользователя и генерирует текстовые блоки для резюме через LLM"
+    },
+    {
+      "name": "METU хакатон",
+      "description": "выиграл первое место в хакатоне, организованном METU, где создавал time-series модель для прогноза лучших рекламных каналов для компании"
+    },
+    {
+      "name": "IT-Fest первое место в направление startup battle",
+      "description": "продолжили с проектом из Metu и выиграли первое место в направлении startup battle на IT-Fest 2025"
+    }
+  ],
+  "personalTraits": [
+    "быстро учусь",
+    "ответственно подхожу к задачам",
+    "умею быстро работать над задачами"
+  ],
+  "language": "ru"
+}
